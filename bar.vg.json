@@ -1,0 +1,128 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "A plot of 2016 annual global precipitation data from the NOAA Climate Forecast System (CFS) v2.",
+    "width": 600,
+    "height": 450,
+    "autosize": "fit-x",
+    "title": "2016 annual US precipitation",
+  
+    "signals": [
+      {
+        "name": "projection", "value": "naturalEarth1"
+      },
+      {
+        "name": "opacity", "value": 0.34
+      },
+      {
+        "name": "levels", "value": 12
+      },
+      {
+        "name": "stop", "value": 3000
+      },
+      {
+        "name": "step",
+        "update": "stop / levels"
+      }
+    ],
+  
+    "data": [
+      {
+        "name": "precipitation",
+        "url": "data/precipitation.json"
+      },
+      {
+        "name": "contours",
+        "source": "precipitation",
+        "transform": [
+          {
+            "type": "isocontour",
+            "thresholds": {"signal": "sequence(step, stop, step)"}
+          }
+        ]
+      },
+      {
+        "name": "USA",
+        "url": "data/states.json",
+        "format": {"type": "topojson", "feature": "states"}
+      }
+    ],
+  
+    "projections": [
+      {
+        "name": "projection",
+        "type": "albersUsa",
+        
+        "scale": 800,
+       
+        "translate": {"signal": "[width/2, height/2]"}
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "color",
+        "type": "quantize",
+        "domain": {"signal": "[0, stop]"},
+        "range": {"scheme": "darkblue", "count": 12}
+      }
+    ],
+  
+    "marks": [
+      {
+        "type": "shape",
+        "clip": true,
+        "from": {"data": "USA"},
+        
+        "encode": {
+          "update": {
+            "strokeWidth": {"value": 1},
+            "stroke": {"value": "black"},
+            "fill": {"value": "#ddd"}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "projection": "projection"
+          }
+        ]
+      },
+      {
+        "type": "shape",
+        "clip": true,
+        "from": { "data": "contours"},
+        "encode": {
+          "update": {
+            "fill": {"scale": "color", "field": "contour.value"},
+            "fillOpacity": {"signal": "opacity"}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "field": "datum.contour",
+            "projection": "projection"
+          }
+        ]
+      }
+    ],
+  
+    "legends": [
+      {
+        "title": "Precipitation (mm)",
+        "fill": "color",
+        "orient": "bottom",
+        "offset": 5,
+        "type": "gradient",
+        "gradientLength": 200,
+        "gradientThickness": 12,
+        "titlePadding": 10,
+        "titleOrient": "left",
+        "titleAnchor": "end",
+        "direction": "horizontal"
+      }
+    ]
+  }
+
+
+  

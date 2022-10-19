@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@5"></script>
+  <script src="https://d3js.org/d3.v7.js"></script>
+  <script src="https://unpkg.com/topojson@3"></script>
+  <script src=
+  "https://d3js.org/d3-geo-projection.v2.min.js">
+</script>
+<title>Raster plot</title>
+</head>
+
+<body>  
+    <h1>Raster plot</h1>
+    <h2>Hypothesis</h2>
+    <p>
+      States which have more annual rain are more likely to have fewer car accidents.
+    </p>  
+    <p>The idea behind this is that, places where there is more rain will make people ride more carefully and slowly since they know the road
+      is wet and gets very slippery </p>
+  <div id="vis"></div>
+  <p>
+    To try and demonstrate this matter more. I chose from 3 different "areas". High rain, dry, medium rain areas.
+  </p>
+  WA and OR are got high annual precipitation MA and VA got medium precipitation. AZ though is I guess from the raster the most dry state and it got most of the traffic fatalities.
+  <p>
+    <div id = "bar"></div>
+    <p>
+      I chose those states because they are very close in terms of population.<br> Of course there are other states where there is more accidents with more population, <br> but I think taking this experiment from similar states in term of population could give us a decent look on the tendency I am looking for.
+
+    </p>
+  </p>
+
+  Traffic Fatalities data source:
+        <a href = "https://www-fars.nhtsa.dot.gov/States/StatesCrashesAndAllVictims.aspx" target = blank>
+          https://www-fars.nhtsa.dot.gov/States/StatesCrashesAndAllVictims.aspx        </a>
+             <p> Precipitation data source:
+                <a href = " https://www.sciencebase.gov/catalog/item/4fb55df0e4b04cb937751e02" target = blank>
+                    https://www.sciencebase.gov/catalog/item/4fb55df0e4b04cb937751e02
+                </a>
+             </p>
+             <p>
+                State population:
+                <a href = "https://dilemma-x.net/2016/12/21/u-s-state-populations-2016-most-populous-states/" target = blank>
+                  https://dilemma-x.net/2016/12/21/u-s-state-populations-2016-most-populous-states/                  </a>         
+             </p>
+  
+  
+  <script>
+    const spec = "bar.vg.json";
+  	vegaEmbed("#vis", spec)
+      // result.view provides access to the Vega View API
+      .then(result => console.log(result))
+      .catch(console.warn);
+  </script>
+
+<script>
+  const spec1 = "bar2.vg.json";
+  vegaEmbed("#bar", spec1)
+    // result.view provides access to the Vega View API
+    .then(result => console.log(result))
+    .catch(console.warn);
+</script>
+    
+    <!-- <div id = "histo">
+      <script src = script.js></script>
+    </div> -->
+</body>
